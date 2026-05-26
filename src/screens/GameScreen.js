@@ -24,12 +24,15 @@ import {
   calcShardReward,
 } from '../utils/gameLogic';
 import { Storage } from '../utils/storage';
+import { generateWordsWithAI } from '../utils/aiService';
 import Header from '../components/Header';
 import LetterWheel from '../components/LetterWheel';
 import CrosswordGrid from '../components/CrosswordGrid';
+import AIWordModal from '../components/AIWordModal';
 
 const { width: SW, height: SH } = Dimensions.get('window');
-const HINT_COST = 50;
+const HINT_COST   = 50;
+const AI_WORD_COST = 100;
 
 export default function GameScreen({ route, navigation }) {
   const { levelId = 1 } = route.params || {};
@@ -47,6 +50,12 @@ export default function GameScreen({ route, navigation }) {
   const [shards, setShards] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [bonusFlash, setBonusFlash] = useState(false);
+
+  // Yapay Zeka modal durumları
+  const [aiModalVisible, setAiModalVisible] = useState(false);
+  const [aiLoading,      setAiLoading]      = useState(false);
+  const [aiWords,        setAiWords]        = useState(null);
+  const [aiError,        setAiError]        = useState(null);
 
   // Animasyonlar
   const overlayAnim = useRef(new Animated.Value(0)).current;
@@ -204,6 +213,67 @@ export default function GameScreen({ route, navigation }) {
     Alert.alert('◆ İpucu', `"${hint.word}" kelimesi "${hint.letter}" harfi ile başlıyor.`);
   };
 
+  // ── Yapay Zeka: Kelime Üretme ─────────────────────────────────
+  const handleAI = async () => {
+    if (!level) return;
+
+    // Kıymık kontrolü
+    if (shards < AI_WORD_COST) {
+      Alert.alert(
+        'Yetersiz Kıymık',
+        `Yapay Zeka için ${AI_WORD_COST} ◆ Kıymık gerekli.\nŞu an: ${shards} ◆`
+      );
+      return;
+    }
+
+    // Modalı yükleme durumunda aç
+    setAiWords(null);
+    setAiError(null);
+    setAiLoading(true);
+    setAiModalVisible(true);
+
+    try {
+      const newWords = await generateWordsWithAI(level.letters, level.words.length);
+      setAiWords(newWords);
+    } catch (err) {
+      setAiError(err.message);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  // Kullanıcı "Uygula" dediğinde: kıymık harca, kelimeleri güncelle
+  const handleAIConfirm = async () => {
+    if (!aiWords || aiWords.length === 0) return;
+
+    const canSpend = await Storage.spendShards(AI_WORD_COST);
+    if (!canSpend) {
+      Alert.alert('Yetersiz Kıymık', 'İşlem tamamlanamadı.');
+      return;
+    }
+    setShards(prev => prev - AI_WORD_COST);
+
+    // Seviye kelimelerini güncelle, oyunu sıfırla
+    setLevel(prev => ({ ...prev, words: aiWords }));
+    setFoundWords([]);
+    setFoundBonus([]);
+    setSelectedIndices([]);
+    setHintsUsed(0);
+    setIsComplete(false);
+    setWordStatus('idle');
+
+    setAiModalVisible(false);
+    setAiWords(null);
+    setAiError(null);
+  };
+
+  const handleAIClose = () => {
+    if (aiLoading) return; // yüklenirken kapatılmasın
+    setAiModalVisible(false);
+    setAiWords(null);
+    setAiError(null);
+  };
+
   // Next level
   const handleNext = () => {
     navigation.replace('Game', { levelId: levelId + 1 });
@@ -307,6 +377,33 @@ export default function GameScreen({ route, navigation }) {
         </TouchableOpacity>
       </View>
 
+      {/* ── Yapay Zeka Butonu ── */}
+      {!isComplete && (
+        <View style={styles.aiRow}>
+          <TouchableOpacity
+            style={[
+              styles.aiBtn,
+              {
+                borderColor: C.arcaneCore + '55',
+                backgroundColor: C.arcaneCore + '0E',
+              },
+              aiLoading && { opacity: 0.55 },
+            ]}
+            onPress={handleAI}
+            activeOpacity={0.72}
+            disabled={aiLoading}
+          >
+            <Text style={[styles.aiBtnIcon,  { color: C.arcaneCore }]}>✦</Text>
+            <Text style={[styles.aiBtnLabel, { color: C.arcaneCore }]}>YAPAY ZEKA</Text>
+            <View style={[styles.aiBtnCost, { backgroundColor: C.elevated, borderColor: COLORS.shardDim }]}>
+              <Text style={[styles.aiBtnCostText, { color: COLORS.shardGold }]}>
+                {AI_WORD_COST} ◆
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
+
       {/* Letter wheel */}
       <View style={styles.wheelArea}>
         <LetterWheel
@@ -319,6 +416,17 @@ export default function GameScreen({ route, navigation }) {
           shake={shake}
         />
       </View>
+
+      {/* ── Yapay Zeka Modal ── */}
+      <AIWordModal
+        visible={aiModalVisible}
+        onClose={handleAIClose}
+        onConfirm={handleAIConfirm}
+        isLoading={aiLoading}
+        generatedWords={aiWords}
+        error={aiError}
+        isDark={isDark}
+      />
 
       {/* Level complete overlay */}
       {isComplete && (
@@ -506,6 +614,42 @@ const styles = StyleSheet.create({
   },
   shuffleIcon: {
     fontSize: 20,
+  },
+
+  // Yapay Zeka butonu satırı
+  aiRow: {
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginBottom: 6,
+  },
+  aiBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    borderWidth: 1,
+    borderRadius: 22,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  aiBtnIcon: {
+    fontSize: 13,
+  },
+  aiBtnLabel: {
+    fontSize: 12,
+    fontFamily: 'Cinzel_700Bold',
+    letterSpacing: 2,
+  },
+  aiBtnCost: {
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    marginLeft: 4,
+  },
+  aiBtnCostText: {
+    fontSize: 11,
+    fontFamily: 'Rajdhani_700Bold',
+    letterSpacing: 0.5,
   },
 
   // Wheel
