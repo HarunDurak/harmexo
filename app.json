@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "VERBEX",
+    "slug": "verbex",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#080C1A"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.verbex.wordgame",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#080C1A"
+      },
+      "package": "com.verbex.wordgame",
+      "versionCode": 1,
+      "permissions": []
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "VERBEX"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
