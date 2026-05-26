@@ -29,7 +29,7 @@ import LetterWheel from '../components/LetterWheel';
 import CrosswordGrid from '../components/CrosswordGrid';
 
 const { width: SW, height: SH } = Dimensions.get('window');
-const HINT_COST = 30;
+const HINT_COST = 50;
 
 export default function GameScreen({ route, navigation }) {
   const { levelId = 1 } = route.params || {};
@@ -97,7 +97,6 @@ export default function GameScreen({ route, navigation }) {
     setStatus('wrong', 800);
     setShake(true);
     setTimeout(() => setShake(false), 500);
-    Haptics.notificationAsync?.(Haptics.NotificationFeedbackType.Error);
     setSelectedIndices([]);
   }, []);
 
@@ -263,8 +262,19 @@ export default function GameScreen({ route, navigation }) {
         </View>
       )}
 
-      {/* Kelime göstergesi */}
+      {/* Kelime göstergesi + karıştır ikonu */}
       <View style={styles.wordRow}>
+        {/* Sol — İpucu */}
+        <TouchableOpacity
+          style={[styles.hintBtn, { borderColor: C.border, backgroundColor: C.elevated }]}
+          onPress={handleHint}
+          activeOpacity={0.75}
+        >
+          <Text style={[styles.hintIcon, { color: C.shardGold }]}>◆</Text>
+          <Text style={[styles.hintCost, { color: C.shardGold }]}>{HINT_COST}</Text>
+        </TouchableOpacity>
+
+        {/* Orta — kelime pill */}
         <TouchableOpacity
           style={[
             styles.wordPill,
@@ -286,26 +296,14 @@ export default function GameScreen({ route, navigation }) {
             <Text style={[styles.wordPillEmpty, { color: C.textMuted }]}>· · ·</Text>
           )}
         </TouchableOpacity>
-      </View>
 
-      {/* İpucu | Karıştır */}
-      <View style={styles.controls}>
+        {/* Sağ — Karıştır ikonu */}
         <TouchableOpacity
-          style={[styles.ctrlBtn, { borderColor: C.border, backgroundColor: C.elevated }]}
-          onPress={handleHint}
-          activeOpacity={0.75}
-        >
-          <Text style={[styles.ctrlIcon, { color: C.textSecondary }]}>◆</Text>
-          <Text style={[styles.ctrlLabel, { color: C.textMuted }]}>İpucu  {HINT_COST}◆</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.ctrlBtn, { borderColor: C.border, backgroundColor: C.elevated }]}
+          style={[styles.shuffleBtn, { borderColor: C.border, backgroundColor: C.elevated }]}
           onPress={handleShuffle}
           activeOpacity={0.75}
         >
-          <Text style={[styles.ctrlIcon, { color: C.textSecondary }]}>⟳</Text>
-          <Text style={[styles.ctrlLabel, { color: C.textMuted }]}>Karıştır</Text>
+          <Text style={[styles.shuffleIcon, { color: C.textSecondary }]}>⟳</Text>
         </TouchableOpacity>
       </View>
 
@@ -431,6 +429,7 @@ const styles = StyleSheet.create({
   gridArea: {
     flex: 1,
     marginHorizontal: 10,
+    overflow: 'hidden',
   },
 
   bonusFlash: {
@@ -453,22 +452,24 @@ const styles = StyleSheet.create({
 
   // Kelime göstergesi satırı
   wordRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     marginBottom: 4,
+    gap: 8,
   },
   wordPill: {
+    flex: 1,
     borderWidth: 1,
     borderRadius: 24,
-    paddingHorizontal: 28,
+    paddingHorizontal: 16,
     paddingVertical: 8,
-    minWidth: 160,
     alignItems: 'center',
   },
   wordPillText: {
-    fontSize: 22,
+    fontSize: 26,
     fontFamily: 'Cinzel_700Bold',
-    letterSpacing: 5,
+    letterSpacing: 6,
   },
   wordPillX: {
     fontSize: 12,
@@ -479,31 +480,32 @@ const styles = StyleSheet.create({
     letterSpacing: 8,
     opacity: 0.5,
   },
-
-  // İpucu + Karıştır satırı
-  controls: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 16,
-    paddingHorizontal: 24,
-    marginBottom: 4,
-  },
-  ctrlBtn: {
+  hintBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    gap: 3,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
     borderRadius: 20,
     borderWidth: 1,
   },
-  ctrlIcon: {
-    fontSize: 14,
+  hintIcon: {
+    fontSize: 11,
   },
-  ctrlLabel: {
-    fontSize: 12,
-    fontFamily: 'Rajdhani_600SemiBold',
-    letterSpacing: 0.5,
+  hintCost: {
+    fontSize: 13,
+    fontFamily: 'Rajdhani_700Bold',
+  },
+  shuffleBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shuffleIcon: {
+    fontSize: 20,
   },
 
   // Wheel

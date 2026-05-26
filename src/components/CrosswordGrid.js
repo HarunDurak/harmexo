@@ -1,14 +1,14 @@
 /**
- * VERBEX — CrosswordGrid
+ * HARMEXO — CrosswordGrid
  * Özgün çarpraz kelime ızgarası.
  * Tüm tasarım ve kod orijinaldir.
  */
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect, useMemo, useState, useCallback } from 'react';
 import { View, Text, Animated, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { COLORS, LIGHT_COLORS } from '../theme';
 
 const { width: SW } = Dimensions.get('window');
-const BASE_CELL = 38;
+const BASE_CELL = 36;
 const GAP = 3;
 
 // ─── Crossword Layout Builder ────────────────────────────────────────────────
@@ -233,6 +233,12 @@ export default function CrosswordGrid({
     outputRange: ['#FF4D6A', 'transparent', '#4AE896'],
   });
 
+  const [containerH, setContainerH] = useState(260);
+  const onLayout = useCallback((e) => {
+    const h = e.nativeEvent.layout.height;
+    if (h > 0) setContainerH(h);
+  }, []);
+
   const { grid, placed } = useMemo(
     () => buildCrossword(words),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -256,8 +262,13 @@ export default function CrosswordGrid({
 
   const totalCols = maxC - minC + 1;
   const totalRows = maxR - minR + 1;
-  const maxWidth = SW - 48;
-  const cellSize = Math.min(BASE_CELL, Math.floor((maxWidth - (totalCols - 1) * GAP) / totalCols));
+  const maxWidth  = SW - 48;
+  const padding   = 12 * 2 + 6 * 2; // panel padding + scrollView paddingVertical
+
+  // Hem genişlik hem yüksekliğe sığacak şekilde hesapla
+  const cellByW = Math.floor((maxWidth  - (totalCols - 1) * GAP) / totalCols);
+  const cellByH = Math.floor((containerH - padding - (totalRows - 1) * GAP) / totalRows);
+  const cellSize = Math.min(BASE_CELL, cellByW, cellByH);
 
   // Hücrenin herhangi bir kelimesi bulundu mu?
   const isCellRevealed = (r, c) => {
@@ -299,9 +310,11 @@ export default function CrosswordGrid({
 
   return (
     <ScrollView
+      style={styles.scroll}
       contentContainerStyle={styles.scrollContent}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
+      onLayout={onLayout}
     >
       {/* Titreme + renk: iki ayrı Animated.View (native vs non-native) */}
       <Animated.View style={{ transform: [{ translateX: shakeAnim }] }}>
@@ -329,6 +342,9 @@ export default function CrosswordGrid({
 }
 
 const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+  },
   scrollContent: {
     flexGrow: 1,
     alignItems: 'center',

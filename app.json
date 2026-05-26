@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "VERBEX",
-    "slug": "verbex",
+    "name": "HARMEXO",
+    "slug": "harmexo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.verbex.wordgame",
+      "bundleIdentifier": "com.harmexo.wordgame",
       "buildNumber": "1"
     },
     "android": {
@@ -22,13 +22,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#080C1A"
       },
-      "package": "com.verbex.wordgame",
+      "package": "com.harmexo.wordgame",
       "versionCode": 1,
       "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "name": "VERBEX"
+      "name": "HARMEXO"
     },
     "plugins": [
       "expo-font"

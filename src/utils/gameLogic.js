@@ -1,4 +1,4 @@
-// LEXORA — Game Logic
+// HARMEXO — Game Logic
 // Pure utility functions, no UI dependencies
 
 /**

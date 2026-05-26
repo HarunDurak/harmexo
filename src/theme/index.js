@@ -1,4 +1,4 @@
-// VERBEX — Design System
+// HARMEXO — Design System
 // Original aesthetic: "Cosmic Crystal" — deep space with crystalline geometry
 
 // ── Night palette ────────────────────────────────────
@@ -41,37 +41,40 @@ export const COLORS = {
   shardDim:  '#9B7820',
 };
 
-// ── Day palette — sıcak, iç açıcı ───────────────────
+// ── Day palette — warm stone + soft blue ─────────────
 export const LIGHT_COLORS = {
-  void:     '#F5F0E8',
-  abyss:    '#FAF6EF',
-  deep:     '#EDE8E0',
-  surface:  '#FFFFFF',
-  elevated: '#F0ECE4',
-  border:   '#D4C8B8',
+  // Surfaces — ılık taş beyazı, göz yormaz
+  void:     '#E8E6E1',
+  abyss:    '#F0EEE9',   // ana arka plan
+  deep:     '#E2E0DA',
+  surface:  '#F8F7F4',
+  elevated: '#CCDCEE',   // soft mavi — kelime/input alanları
+  border:   '#A8C4DC',
 
-  crystalCore:  '#1A7FAA',
-  crystalGlow:  '#005E88',
-  crystalDim:   '#7ABBD4',
-  crystalFaint: '#C8E8F4',
+  // Primary accent — soft blue
+  crystalCore:  '#3A7DB8',
+  crystalGlow:  '#1A5C96',
+  crystalDim:   '#6AAAD8',
+  crystalFaint: '#C8E0F4',
 
-  emberCore: '#D45500',
-  emberGlow: '#A83800',
+  emberCore: '#3A7DB8',
+  emberGlow: '#1A5C96',
 
-  arcaneCore: '#7030C8',
-  arcaneGlow: '#501099',
+  arcaneCore: '#5898C8',
+  arcaneGlow: '#3070A8',
 
-  successCore: '#1A8850',
-  successGlow: '#006638',
-  errorCore:   '#CC1A30',
-  errorGlow:   '#A00020',
+  successCore: '#3A9870',
+  successGlow: '#1A7850',
+  errorCore:   '#C03838',
+  errorGlow:   '#A01818',
 
-  textPrimary:   '#1A1A2E',
-  textSecondary: '#4A4A6E',
-  textMuted:     '#888899',
+  // Text — koyu, net okunur
+  textPrimary:   '#18222E',
+  textSecondary: '#2E4460',
+  textMuted:     '#6880A0',
 
-  shardGold: '#A07800',
-  shardDim:  '#7A5A00',
+  shardGold: '#9A7820',
+  shardDim:  '#6E5610',
 };
 
 // ── Night realm themes — daha renkli arka planlar ───
@@ -123,51 +126,51 @@ export const REALM_THEMES = {
   },
 };
 
-// ── Light realm themes — sıcak, canlı ───────────────
+// ── Light realm themes — warm stone bg, soft blue tones
 export const LIGHT_REALM_THEMES = {
   ember: {
     name:   'Ember Realm',
     nameTR: 'Kor Alemi',
-    bg:     ['#FFF0E4', '#FFE4CC', '#FFF8F2'],
-    accent: '#D45500',
-    glow:   '#FF7700',
-    particle: '#FF9944',
+    bg:     ['#F0EEE9', '#E8E6E1', '#F5F4F0'],
+    accent: '#3A7DB8',
+    glow:   '#1A5C96',
+    particle: '#6AAAD8',
     icon: '🔥',
   },
   frost: {
     name:   'Frost Realm',
     nameTR: 'Buz Alemi',
-    bg:     ['#EAF4FF', '#D4ECFF', '#F0F8FF'],
-    accent: '#1A7FAA',
-    glow:   '#00AACC',
-    particle: '#55CCEE',
+    bg:     ['#EDF0F4', '#E4E8EE', '#F3F5F8'],
+    accent: '#3A7DB8',
+    glow:   '#1A5C96',
+    particle: '#80B8DC',
     icon: '❄️',
   },
   storm: {
     name:   'Storm Realm',
     nameTR: 'Fırtına Alemi',
-    bg:     ['#F0EAFF', '#E4D8FF', '#F8F4FF'],
-    accent: '#7030C8',
-    glow:   '#9A50FF',
-    particle: '#BB88FF',
+    bg:     ['#EEEDF4', '#E6E4EE', '#F4F3F8'],
+    accent: '#5A6CB8',
+    glow:   '#3A4C98',
+    particle: '#8890D0',
     icon: '⚡',
   },
   verdant: {
     name:   'Verdant Realm',
     nameTR: 'Orman Alemi',
-    bg:     ['#E8F6EC', '#D4EFDC', '#F2FAF4'],
-    accent: '#1A8850',
-    glow:   '#22AA55',
-    particle: '#55CC88',
+    bg:     ['#EDF2EE', '#E4EDE6', '#F3F7F4'],
+    accent: '#3A9870',
+    glow:   '#1A7850',
+    particle: '#60B898',
     icon: '🌿',
   },
   celestial: {
     name:   'Celestial Realm',
     nameTR: 'Gök Alemi',
-    bg:     ['#FFF8E8', '#FFF0CC', '#FFFCF0'],
-    accent: '#A07800',
-    glow:   '#CC9900',
-    particle: '#DDBB44',
+    bg:     ['#F0EEE9', '#E8E6E1', '#F5F4F0'],
+    accent: '#5888B8',
+    glow:   '#386898',
+    particle: '#88AAD0',
     icon: '✨',
   },
 };

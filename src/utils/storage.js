@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const KEYS = {
-  PROGRESS: '@lexora_progress',
-  SHARDS: '@lexora_shards',
-  SETTINGS: '@lexora_settings',
-  LANG: '@lexora_lang',
+  PROGRESS: '@harmexo_progress',
+  SHARDS: '@harmexo_shards',
+  SETTINGS: '@harmexo_settings',
+  LANG: '@harmexo_lang',
 };
 
 export const Storage = {

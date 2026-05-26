@@ -56,8 +56,7 @@ function Particles({ color }) {
           key={i}
           style={{
             position: 'absolute',
-            left: p.x,
-            transform: [{ translateY: p.y }],
+            transform: [{ translateX: p.x }, { translateY: p.y }],
             opacity: p.op,
             width: p.size,
             height: p.size,
@@ -130,7 +129,7 @@ export default function HomeScreen({ navigation }) {
             },
           ]}
         >
-          VERBEX
+          HARMEXO
         </Animated.Text>
         <Animated.Text
           style={[
@@ -199,7 +198,7 @@ export default function HomeScreen({ navigation }) {
       </Animated.View>
 
       {/* Bottom tagline */}
-      <Text style={styles.tagline}>Kelimelerin Ötesine Geç  ·  VERBEX</Text>
+      <Text style={styles.tagline}>Kelimelerin Ötesine Geç  ·  HARMEXO</Text>
     </View>
   );
 }

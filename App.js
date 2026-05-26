@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React, { useEffect, useState, useCallback } from 'react';
 import { ThemeProvider } from './src/context/ThemeContext';
 import { View, StyleSheet } from 'react-native';
@@ -64,52 +64,54 @@ export default function App() {
   if (!appReady || !fontsLoaded) return null;
 
   return (
-    <ThemeProvider>
-    <SafeAreaProvider>
-      <View style={styles.root} onLayout={onLayoutRootView}>
-        <StatusBar style="light" />
-        <NavigationContainer
-          theme={{
-            colors: {
-              background: COLORS.abyss,
-              card: COLORS.surface,
-              border: COLORS.border,
-              text: COLORS.textPrimary,
-              primary: COLORS.crystalCore,
-              notification: COLORS.crystalCore,
-            },
-            dark: true,
-          }}
-        >
-          <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerShown: false,
-              cardStyle: { backgroundColor: COLORS.abyss },
-              gestureEnabled: true,
-              cardStyleInterpolator: ({ current, layouts }) => ({
-                cardStyle: {
-                  opacity: current.progress,
-                  transform: [
-                    {
-                      translateY: current.progress.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [40, 0],
-                      }),
-                    },
-                  ],
+    <GestureHandlerRootView style={styles.root}>
+      <ThemeProvider>
+        <SafeAreaProvider>
+          <View style={styles.root} onLayout={onLayoutRootView}>
+            <StatusBar style="light" />
+            <NavigationContainer
+              theme={{
+                colors: {
+                  background: COLORS.abyss,
+                  card: COLORS.surface,
+                  border: COLORS.border,
+                  text: COLORS.textPrimary,
+                  primary: COLORS.crystalCore,
+                  notification: COLORS.crystalCore,
                 },
-              }),
-            }}
-          >
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="RealmMap" component={RealmMapScreen} />
-            <Stack.Screen name="Game" component={GameScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View>
-    </SafeAreaProvider>
-    </ThemeProvider>
+                dark: true,
+              }}
+            >
+              <Stack.Navigator
+                initialRouteName="Home"
+                screenOptions={{
+                  headerShown: false,
+                  cardStyle: { backgroundColor: COLORS.abyss },
+                  gestureEnabled: false,
+                  cardStyleInterpolator: ({ current, layouts }) => ({
+                    cardStyle: {
+                      opacity: current.progress,
+                      transform: [
+                        {
+                          translateY: current.progress.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [40, 0],
+                          }),
+                        },
+                      ],
+                    },
+                  }),
+                }}
+              >
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="RealmMap" component={RealmMapScreen} />
+                <Stack.Screen name="Game" component={GameScreen} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </View>
+        </SafeAreaProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
 

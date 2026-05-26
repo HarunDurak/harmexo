@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
   },
   letterText: {
-    fontSize: 22,
+    fontSize: 26,
     fontFamily: 'Cinzel_700Bold',
     letterSpacing: 1,
   },
