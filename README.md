@@ -1,210 +1,219 @@
-# LEXORA — Word Realms
-### Orijinal Mobil Kelime Oyunu | Original Mobile Word Game
+# HARMEXO — Kelime Alemleri
+### Orijinal Mobil Kelime Bulmaca Oyunu
+
+<p align="center">
+  <img src="assets/icon.png" width="100" alt="HARMEXO icon" />
+</p>
 
 ---
 
-## 🎮 Oyun Hakkında / About
+## 🎮 Oyun Hakkında
 
-**LEXORA: Word Realms**, Words of Wonders'dan ilham alınarak sıfırdan tasarlanmış, **telif hakkı açısından tamamen bağımsız** bir mobil kelime bulmaca oyunudur.
+**HARMEXO: Kelime Alemleri**, harflerden kelime oluşturma mekaniklerini **gizemli bir kozmik evren** temasıyla birleştiren, sıfırdan tasarlanmış bağımsız bir mobil kelime bulmaca oyunudur.
 
-**LEXORA: Word Realms** is a fully original mobile word puzzle game inspired by (not copying) the word-connection genre. Every asset, mechanic name, system, and design element is original.
-
----
-
-## ✨ Orijinallik Farkları / Original Differentiators
-
-| Özellik | Words of Wonders | **LEXORA** |
-|---|---|---|
-| Tema | Dünya anıtları | **Gizemli Alemler (Realms)** |
-| Para birimi | Coins | **◆ Kıymık (Shards)** |
-| İpucu sistemi | Hint | **Echo Reveal** |
-| Level geçişi | Ülke/şehir bazlı | **Realm + kristal enerji** |
-| Renk kimliği | Açık mavi/yeşil | **Kozmik kristal / void siyahı** |
-| Font | Sistem fontları | **Cinzel + Rajdhani (özgün çift)** |
-| Ekstra kelimeler | Bonus words | **Arcane Words (gizli ödüller)** |
-| Estetik | Turistik harita | **Karanlık uzay kristali** |
+Her tasarım öğesi — isimler, temalar, renkler, tipografi, ödül sistemi — özgün olarak yaratılmıştır.
 
 ---
 
-## 📁 Proje Yapısı / Project Structure
+## ✨ Öne Çıkan Özellikler
+
+| Özellik | Detay |
+|---|---|
+| 🌍 **5 Gizemli Alem** | Kor · Buz · Fırtına · Orman · Gök |
+| ◆ **Kıymık Sistemi** | Seviye ödülleri, ipucu harcamaları |
+| 🔮 **Arcane Kelimeler** | Gizli bonus kelimeler, mor animasyon |
+| ⭐ **Yıldız Derecelendirme** | 3 yıldız için ipuçsuz + tüm bonusları bul |
+| 🌙 **Gece / Gündüz Modu** | Kozmik koyu tema + ılık taş aydınlık tema |
+| ✍️ **Çapraz Kelime Izgarası** | Harfler otomatik crossword düzeninde yerleşir |
+| 🎯 **Sürükleme Desteği** | Harfleri sürükleyerek kelime oluştur |
+| 📳 **Haptic Geri Bildirim** | Dokunsal animasyonlar |
+
+---
+
+## 📁 Proje Yapısı
 
 ```
-LEXORA/
-├── App.js                    # Root, navigation, font loading
-├── app.json                  # Expo config
-├── package.json              # Dependencies
-├── eas.json                  # Build config (Android + iOS)
-├── babel.config.js
+harmexo/
+├── App.js                      # Root, navigation, font yükleme
+├── app.json                    # Expo konfigürasyonu
+├── package.json                # Bağımlılıklar
+├── eas.json                    # Build konfigürasyonu
 │
-├── src/
-│   ├── theme/
-│   │   └── index.js          # Colors, realm themes, fonts, sizes
-│   │
-│   ├── data/
-│   │   └── levels.js         # All level data (EN + TR) — 100 levels plan
-│   │
-│   ├── utils/
-│   │   ├── gameLogic.js      # Pure game functions (check word, hint, stars...)
-│   │   └── storage.js        # AsyncStorage wrapper (progress, shards, settings)
-│   │
-│   ├── screens/
-│   │   ├── HomeScreen.js     # Ana ekran / Main menu
-│   │   ├── RealmMapScreen.js # Dünya haritası / Level map
-│   │   └── GameScreen.js     # Oyun ekranı / Gameplay
-│   │
-│   └── components/
-│       ├── Header.js         # Top bar with back/shards/settings
-│       ├── LetterWheel.js    # Circular letter selector
-│       ├── WordGrid.js       # Word slots display
-│       └── WordBar.js        # Current word feedback bar
+├── assets/
+│   └── icon.png / splash.png
+│
+└── src/
+    ├── theme/
+    │   └── index.js            # Renkler, alem temaları, fontlar
+    │
+    ├── data/
+    │   └── levels.js           # Tüm seviye verileri (5 alem, 18+ seviye)
+    │
+    ├── utils/
+    │   ├── gameLogic.js        # Saf oyun fonksiyonları (checkWord, hint, stars…)
+    │   └── storage.js          # AsyncStorage (ilerleme, kıymık, ayarlar)
+    │
+    ├── context/
+    │   └── ThemeContext.js     # Gece/Gündüz tema context'i
+    │
+    ├── screens/
+    │   ├── HomeScreen.js       # Ana ekran
+    │   ├── RealmMapScreen.js   # Alem haritası
+    │   └── GameScreen.js       # Oyun ekranı
+    │
+    └── components/
+        ├── Header.js           # Üst bar (geri / kıymık / tema)
+        ├── LetterWheel.js      # Dairesel harf seçici
+        ├── CrosswordGrid.js    # Çapraz kelime ızgarası
+        ├── WordGrid.js         # Kelime yuvaları
+        └── WordBar.js          # Anlık kelime göstergesi
 ```
 
 ---
 
-## 🚀 Kurulum / Setup
+## 🚀 Kurulum
 
-### Gereksinimler / Requirements
-- **Node.js** 18+ 
-- **Expo CLI**: `npm install -g expo-cli`
-- **EAS CLI** (build için): `npm install -g eas-cli`
-- Android Studio (Android emulator) veya Xcode (iOS simulator)
+### Gereksinimler
+- **Node.js** 18+
+- **Expo CLI** — `npm install -g expo-cli`
+- **EAS CLI** (build için) — `npm install -g eas-cli`
+- Android Studio (Android emülatör) veya Xcode (iOS simülatör)
 
-### 1. Bağımlılıkları Yükle / Install Dependencies
+### 1. Bağımlılıkları Yükle
 ```bash
-cd LEXORA
+cd harmexo
 npm install
 ```
 
-### 2. Geliştirme Sunucusu / Start Dev Server
+### 2. Geliştirme Sunucusunu Başlat
 ```bash
 npx expo start
 ```
 
-Ardından:
-- **Android**: `a` tuşuna bas veya Expo Go app ile QR oku
-- **iOS**: `i` tuşuna bas veya Expo Go app ile QR oku
-- **Web**: `w` tuşuna bas (tam test için mobil önerilir)
+- **Android** → `a` tuşu veya Expo Go ile QR oku
+- **iOS** → `i` tuşu veya Expo Go ile QR oku
+- **Web** → `w` tuşu *(tam test için mobil önerilir)*
 
 ---
 
 ## 📱 Build (APK / IPA)
 
-### Android APK (test için / for testing)
+### Android — Test APK
 ```bash
 eas build --platform android --profile preview
 ```
 
-### Android App Bundle (Play Store)
+### Android — Play Store
 ```bash
 eas build --platform android --profile production
 ```
 
-### iOS (App Store)
+### iOS — App Store
 ```bash
 eas build --platform ios --profile production
 ```
 
-> **Not:** EAS Build için `eas login` ile Expo hesabına giriş yapman gerekir.
-> Ücretsiz hesap ile ayda birkaç build yapılabilir.
+> **Not:** `eas login` ile Expo hesabına giriş gerekir.
 
 ---
 
-## 🎯 Oyun Mekaniği / Game Mechanics
+## 🎯 Oyun Mekaniği
 
-### Temel Döngü / Core Loop
-1. Ekranda **gizli kelime yuvalar** gösterilir
+### Temel Döngü
+1. Ekranda **gizli kelime yuvaları** crossword düzeninde gösterilir
 2. Harfler **kristal çark** üzerinde daire şeklinde dizilir
-3. Harflere sırayla tıklayarak kelime oluşturulur
-4. **GİR** butonuna basılır → Doğruysa kelime yuvasını doldurur
-5. Tüm kelimeler bulununca seviye tamamlanır
+3. Harflere tıklayarak veya **sürükleyerek** kelime oluşturulur
+4. Doğru kelime → yuvayı doldurur, animasyon oynar
+5. Tüm kelimeler tamamlanınca seviye biter
 
-### Puanlama / Scoring
-- ⭐⭐⭐ **3 Yıldız**: İpucu kullanmadan tüm bonus kelimeleri bul
-- ⭐⭐ **2 Yıldız**: İpucu kullanmadan bitir
-- ⭐ **1 Yıldız**: İpucu kullanarak bitir
+### Yıldız Sistemi
+| Yıldız | Koşul |
+|---|---|
+| ⭐⭐⭐ | İpucu yok + tüm Arcane kelimeler bulundu |
+| ⭐⭐ | İpucu yok |
+| ⭐ | İpucu kullanıldı |
 
-### Kıymık Sistemi / Shard System
-- Her seviye tamamlandığında **◆ Kıymık** kazanılır
-- Yıldız sayısı ve bonus kelimeler ödülü artırır
-- İpucu için **30 ◆ Kıymık** harcanır
+### ◆ Kıymık Sistemi
+- Her seviye tamamlandığında Kıymık kazanılır
+- Yıldız sayısı ödülü artırır (×1.0 → ×1.25 → ×1.5)
+- **◆ İpucu:** 50 Kıymık — bulunmamış en kısa kelimenin ilk harfini gösterir
+- Bonus Arcane kelimeler +5 ◆ ekstra ödül verir
 
-### Arcane (Bonus) Kelimeler
-- Seviyenin ana listesinde olmayan ama harflerden oluşturulabilen gizli kelimeler
-- Mor renk animasyonu ile gösterilir
-- +5 ◆ Kıymık her bonus kelime için
+### 🔮 Arcane (Bonus) Kelimeler
+Seviyenin ana listesinde olmayan, ama mevcut harflerden oluşturulabilen gizli kelimeler.
+Mor animasyon ile gösterilir; ekstra Kıymık ödülü verir.
 
 ---
 
-## 🌍 Alemler / Realms
+## 🌍 Alemler
 
 | Alem | Seviyeler | Tema | Renk |
 |---|---|---|---|
-| 🔥 Kor Alemi (Ember) | 1–20 | Ateş, kül, volkan | Turuncu |
-| ❄️ Buz Alemi (Frost) | 21–40 | Buz, kar, aurora | Teal |
-| ⚡ Fırtına Alemi (Storm) | 41–60 | Gök gürültüsü, rüzgar | Mor |
-| 🌿 Orman Alemi (Verdant) | 61–80 | Orman, kök, yaprak | Yeşil |
-| ✨ Gök Alemi (Celestial) | 81–100 | Yıldızlar, galaksi | Altın |
+| 🔥 **Kor Alemi** (Ember) | 1 – 20 | Ateş, kül, volkan | Turuncu |
+| ❄️ **Buz Alemi** (Frost) | 21 – 40 | Buz, kar, aurora | Teal |
+| ⚡ **Fırtına Alemi** (Storm) | 41 – 60 | Gök gürültüsü, rüzgar | Mor |
+| 🌿 **Orman Alemi** (Verdant) | 61 – 80 | Orman, kök, yaprak | Yeşil |
+| ✨ **Gök Alemi** (Celestial) | 81 – 100 | Yıldızlar, galaksi | Altın |
+
+Her alem, bir öncekinde belirli sayıda seviye tamamlanınca açılır.
 
 ---
 
-## 📊 Genişletme Planı / Roadmap
+## 📊 Yol Haritası
 
-### v1.0 (Mevcut / Current)
-- [x] 5 Realm, 15+ başlangıç seviyesi
+### v1.0 ✅ Mevcut
+- [x] 5 Alem, 18 başlangıç seviyesi
 - [x] Tam oyun döngüsü (wheel → submit → complete)
+- [x] Çapraz kelime ızgarası (otomatik crossword layout)
+- [x] Sürükleme + tıklama desteği
 - [x] AsyncStorage ile ilerleme kaydetme
-- [x] Kıymık sistemi
-- [x] İpucu sistemi
-- [x] Türkçe + İngilizce kelime desteği
-- [x] Haptic feedback
-- [x] Animasyonlar (shake, pulse, level complete)
+- [x] Kıymık & İpucu sistemi
+- [x] Arcane bonus kelimeler
+- [x] Gece / Gündüz tema
+- [x] Haptic feedback & animasyonlar
 
 ### v1.1
-- [ ] 100 seviye tamamlanması
-- [ ] Türkçe kelime bankası genişletilmesi
+- [ ] 100 seviyeye tamamlama
+- [ ] Türkçe kelime bankası genişletme
 - [ ] Ses efektleri (Expo AV)
 - [ ] Günlük görev sistemi
 - [ ] Cloud save (Supabase / Firebase)
 
 ### v1.2
-- [ ] Çok oyunculu (realtime battle mod)
+- [ ] Çok oyunculu (realtime battle)
 - [ ] Reklam monetizasyon (AdMob)
 - [ ] IAP — Kıymık paketi satışları
-- [ ] Leaderboard
+- [ ] Küresel sıralama tablosu
 
 ### v2.0
-- [ ] 3D realm animasyonları (Three.js / Lottie)
-- [ ] Seslendirme (harfler için)
+- [ ] 3D alem animasyonları (Lottie)
 - [ ] Özel seviye editörü
+- [ ] Seslendirme
 
 ---
 
-## 🏪 Yayınlama / Publishing
+## 🏪 Yayınlama
 
 ### Google Play Store
 1. `eas build --platform android --profile production`
 2. `.aab` dosyasını Play Console'a yükle
 3. İçerik derecelendirmesi: **Everyone (E)**
-4. Kategori: **Word Games / Kelime Oyunları**
+4. Kategori: **Kelime Oyunları / Word Games**
 
 ### Apple App Store
-1. Expo Apple Developer hesabı bağla
-2. `eas build --platform ios --profile production`
-3. TestFlight üzerinden test
-4. App Store Connect'e gönder
+1. `eas build --platform ios --profile production`
+2. TestFlight üzerinden test et
+3. App Store Connect'e gönder
 
 ---
 
-## 📜 Telif Hakkı / Copyright Notice
+## 📜 Telif Hakkı
 
 Bu proje tamamen orijinal bir eserdir:
-- Tüm kelimeler genel sözlük kelimeleridir (telif hakkı koruması yoktur)
-- Oyun mekaniği tamamen özgün biçimde yeniden tasarlanmıştır
-- Tüm isimler, temalar, renkler, tipografiler özgün seçimlerdir
-- Words of Wonders veya Zynga'nın herhangi bir varlığı kullanılmamıştır
-
-This is a completely original work. All game mechanics are independently designed.
+- Tüm kelimeler genel sözlük kelimeleridir
+- Oyun mekaniği bağımsız olarak tasarlanmıştır
+- Tüm isimler, temalar, renkler ve tipografiler özgün seçimlerdir
 
 ---
 
-*LEXORA — Kelimelerin Ötesine Geç / Beyond the Word*
+*HARMEXO — Kelimelerin Alemine Aç Kapıyı*
