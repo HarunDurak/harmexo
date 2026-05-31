@@ -13,7 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { COLORS, LIGHT_COLORS, getTheme } from '../theme';
 import { useAppTheme } from '../context/ThemeContext';
-import { getLevelById } from '../data/levels';
+import { getLevelById, getNextLevel } from '../data/levels';
 import {
   checkWord,
   checkBonusWord,
@@ -69,6 +69,7 @@ export default function GameScreen({ route, navigation }) {
     setIsComplete(false);
 
     Storage.getShards().then(setShards);
+    Storage.saveLastLevelId(levelId);
   }, [levelId]);
 
   const theme = level ? realmThemes[level.realm] : realmThemes.frost;
@@ -204,9 +205,14 @@ export default function GameScreen({ route, navigation }) {
     Alert.alert('◆ İpucu', `"${hint.word}" kelimesi "${hint.letter}" harfi ile başlıyor.`);
   };
 
-  // Next level
+  // Next level — ID'si +1 olmayabilir (alem geçişlerinde atlıyor)
   const handleNext = () => {
-    navigation.replace('Game', { levelId: levelId + 1 });
+    const next = getNextLevel(levelId);
+    if (next) {
+      navigation.replace('Game', { levelId: next.id });
+    } else {
+      navigation.goBack(); // Tüm levellar bitti
+    }
   };
 
   const handleBack = () => navigation.goBack();

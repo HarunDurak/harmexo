@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const KEYS = {
-  PROGRESS: '@harmexo_progress',
-  SHARDS: '@harmexo_shards',
-  SETTINGS: '@harmexo_settings',
-  LANG: '@harmexo_lang',
+  PROGRESS:       '@harmexo_progress',
+  SHARDS:         '@harmexo_shards',
+  SETTINGS:       '@harmexo_settings',
+  LANG:           '@harmexo_lang',
+  LAST_LEVEL:     '@harmexo_last_level',
 };
 
 export const Storage = {
@@ -89,6 +90,24 @@ export const Storage = {
 
   async setLang(lang) {
     await AsyncStorage.setItem(KEYS.LANG, lang);
+  },
+
+  // ── Last level (devam et) ─────────────────────────────────
+  async getLastLevelId() {
+    try {
+      const raw = await AsyncStorage.getItem(KEYS.LAST_LEVEL);
+      return raw ? parseInt(raw, 10) : 1;
+    } catch {
+      return 1;
+    }
+  },
+
+  async saveLastLevelId(levelId) {
+    try {
+      await AsyncStorage.setItem(KEYS.LAST_LEVEL, String(levelId));
+    } catch (e) {
+      console.warn('Storage.saveLastLevelId error', e);
+    }
   },
 
   // ── Reset (for testing) ───────────────────────────────────

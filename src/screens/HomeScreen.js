@@ -89,7 +89,11 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   const handlePlay = () => navigation.navigate('RealmMap');
-  const handleContinue = () => navigation.navigate('Game', { levelId: 1 });
+
+  const handleContinue = async () => {
+    const lastId = await Storage.getLastLevelId();
+    navigation.navigate('Game', { levelId: lastId });
+  };
 
   return (
     <View style={styles.root}>
